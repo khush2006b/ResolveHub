@@ -51,6 +51,7 @@ export const sendEmailNotifications = async(toEmail, subject, htmlContent) => {
 // notify citizen about status change
 export const notifyCitizenOfStatusChange = async(complaint) => {
     // lookup for the citizen's contact info
+      console.log(`--- Attempting to send notification for complaint ID: ${complaint._id} ---`);
     const citizen = await User.findById(complaint.submittedBy).select('name email phone');
     if(!citizen) return;
 
