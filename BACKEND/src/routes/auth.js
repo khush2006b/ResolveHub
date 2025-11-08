@@ -5,11 +5,11 @@ import { Strategy as GitHubStrategy } from "passport-github2";
 import crypto from "crypto";
 import { User } from "../models/User.js";
 import {
-  hashPassword,
-  comparePassword,
-  generateToken,
+  hashPassword,
+  comparePassword,
+  generateToken,
 } from "../services/authService.js";
-import {VerificationCode} from "../models/Verificationmodel.js"
+import {VerificationCode} from "../models/Verificationmodel.js" 
 
 const router = express.Router();
 
@@ -58,35 +58,35 @@ const getCitiesWithAdmin = async() => {
 
 // Register User
 router.post("/register", async (req, res) => {
-    const { name, email, password, role : desiredRole, department, city, verificationcode } = req.body;
+    const { name, email, password, role : desiredRole, department, city, verificationcode } = req.body;
 
-    try {
-        let user = await User.findOne({ email });
-        if (user) return res.status(400).json({ msg: "User already exists" });
-        // Initialize default user data
-        let finalRole = 'citizen'
-        let finalCity = null
-        let finalDepartment = null
+ try {
+         let user = await User.findOne({ email });
+         if (user) return res.status(400).json({ msg: "User already exists" });
+        // Initialize default user data
+         let finalRole = 'citizen'
+         let finalCity = null
+        let finalDepartment = null
 
-        const citiesWithAdmin = await getCitiesWithAdmin()
-        
-        // prevent admin registration
-        if (desiredRole === 'admin') {
-        return res
-            .status(403)
-            .json({ msg: 'Admin cannot register via this endpoint. Contact system administrator.' })
-        }
-        
-        if(desiredRole === 'staff'){
-            if (!city || !department || !verificationcode) {
-                return res.status(400).json({ msg: 'City, Department, and Verification Code are required for staff registration.' })
-            }
+         const citiesWithAdmin = await getCitiesWithAdmin()
+ 
+       // prevent admin registration
+         if (desiredRole === 'admin') {
+        return res
+          .status(403)
+           .json({ msg: 'Admin cannot register via this endpoint. Contact system administrator.' })
+         }
+        
+           if(desiredRole === 'staff'){
+           if (!city || !department || !verificationcode) {
+          return res.status(400).json({ msg: 'City, Department, and Verification Code are required for staff registration.' })
+           }
             
             const cityLowerCase = city.toLowerCase();
 
-            if(!citiesWithAdmin.map(c => c.toLowerCase()).includes(cityLowerCase)){
-                return res
-                    .status(403)
+          if(!citiesWithAdmin.map(c => c.toLowerCase()).includes(cityLowerCase)){
+           return res
+           .status(403)
                     .json({msg: `Staff registration for ${city} is not available as no admin exists yet`})
             }
 
