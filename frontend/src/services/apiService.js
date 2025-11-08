@@ -63,6 +63,7 @@ class ApiService {
   }
 
   register(userData) {
+    console.log("in apiservice \n") ;
     return this.api.post("/api/auth/register", userData);
   }
 

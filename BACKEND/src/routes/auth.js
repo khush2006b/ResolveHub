@@ -59,7 +59,7 @@ const getCitiesWithAdmin = async() => {
 // Register User
 router.post("/register", async (req, res) => {
     const { name, email, password, role : desiredRole, department, city, verificationcode } = req.body;
-
+   console.log("in auth.js \n : ", {verificationcode}) ;
  try {
          let user = await User.findOne({ email });
          if (user) return res.status(400).json({ msg: "User already exists" });
@@ -94,8 +94,9 @@ router.post("/register", async (req, res) => {
             const validCode = await VerificationCode.findOne({
                 code : verificationcode.toUpperCase(), 
                 used: false, 
-                city: { $regex: new RegExp(`^${city}$`, 'i') } // Case-insensitive city check
+                city: { $regex: new RegExp(`^${city}$`, 'i') }
             })
+            console.log("Valid code found: ", validCode) ;
             
             if (!validCode) {
                 console.log(`Verification failure: No valid code found for ${city} with code ${verificationcode}`);
@@ -137,12 +138,15 @@ router.post("/register", async (req, res) => {
             city: finalCity,
             department: finalDepartment
         })
+console.log("New user data: ", user) ;
 
         // Hash password
         user.password = await hashPassword(password);
-        await user.save();
-
+        console.log("Hashed password: ", user.password);
+        await user.save({ validateBeforeSave: true });
+        console.log("User saved successfully: ", user);
         const token = generateToken(user.id, user.role);
+        console.log("Registration successful, token generated.") ;
         res.json({ token, role : user.role });
     } catch (err) {
         console.error('REGISTRATION ERROR:', err.message);
