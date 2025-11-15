@@ -4,7 +4,9 @@ import PlacesAutocomplete from './PlacesAutocomplete';
 import StreetViewModal from './StreetViewModal';
 import { MapPin, Eye } from 'lucide-react';
 
-const libraries = ['places'];
+// Remove 'places' library as we're using Geocoding API instead
+// to avoid deprecated places.Autocomplete API for new Google Cloud projects
+const libraries = [];
 
 const MapContainer = ({ 
   onLocationSelect, 

@@ -21,6 +21,7 @@ import OAuthFailure from './pages/OAuthFailure';
 import SettingsPage from './pages/SettingsPage';
 import StatisticsPage from './pages/StatisticsPage';
 import AboutPage from './pages/AboutPage';
+import MapTest from './pages/MapTest';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
               <Route path="/check-status" element={<CheckStatusPage />} />
               <Route path="/help" element={<HelpPage />} />
               <Route path="/about" element={<AboutPage />} />
+              <Route path="/map-test" element={<MapTest />} />
               <Route path="/oauth-success" element={<OAuthSuccess />} />
               <Route path="/oauth-failure" element={<OAuthFailure />} />
 
